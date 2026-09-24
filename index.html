@@ -150,7 +150,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>Number(n||0).toLocaleString('es-AR');
 /* === PEGÁ ACÁ LA URL /exec DE TU APPS SCRIPT === */
-const API_URL='PEGAR_ACA_LA_URL_EXEC';
+const API_URL='https://script.google.com/macros/s/AKfycbyos4K4p8FNNJmRp2LvflCAMUzTmupkw5czyW5VI8U4H326C726rdoEaw2EnsCxT_dT/exec';
 async function run(action,...args){
   if(!/^https:\/\/script\.google\.com\//.test(API_URL))throw new Error('Falta pegar la URL /exec de Apps Script en API_URL (index.html).');
   const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,args})});
