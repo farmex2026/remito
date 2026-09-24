@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<base target="_top">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -150,7 +149,13 @@ async function armarExcel(JSZipLib, plantilla, filas){
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmt=n=>Number(n||0).toLocaleString('es-AR');
-function run(fn,...args){return new Promise((ok,mal)=>google.script.run.withSuccessHandler(ok).withFailureHandler(e=>mal(e&&e.message?e:new Error(String(e))))[fn](...args));}
+/* === PEGÁ ACÁ LA URL /exec DE TU APPS SCRIPT === */
+const API_URL='PEGAR_ACA_LA_URL_EXEC';
+async function run(action,...args){
+  if(!/^https:\/\/script\.google\.com\//.test(API_URL))throw new Error('Falta pegar la URL /exec de Apps Script en API_URL (index.html).');
+  const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,args})});
+  const j=await r.json();if(!j.ok)throw new Error(j.error);return j.data;
+}
 function leerPref(k,d){try{return localStorage.getItem(k)||d}catch(e){return d}}
 function guardarPref(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 function b64aBytes(b64){const bin=atob(b64),u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
